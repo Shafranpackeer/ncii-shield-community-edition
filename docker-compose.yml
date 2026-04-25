@@ -41,7 +41,7 @@ services:
       REDIS_URL: redis://redis:6379/0
       CELERY_BROKER_URL: redis://redis:6379/1
       CELERY_RESULT_BACKEND: redis://redis:6379/2
-      APP_PUBLIC_URL: ${APP_PUBLIC_URL:-http://127.0.0.1:3002}
+      APP_PUBLIC_URL: ${APP_PUBLIC_URL:-http://127.0.0.1:3001}
       BACKEND_PUBLIC_URL: ${BACKEND_PUBLIC_URL:-http://127.0.0.1:8001}
       BING_API_KEY: ${BING_API_KEY:-}
       SERPAPI_KEY: ${SERPAPI_KEY:-}
@@ -56,7 +56,7 @@ services:
       NOTICE_WEBSITE: ${NOTICE_WEBSITE:-}
       NOTICE_CLIENT_NAME: ${NOTICE_CLIENT_NAME:-}
     ports:
-      - "8002:8000"
+      - "8001:8000"
     depends_on:
       postgres:
         condition: service_healthy
@@ -75,7 +75,7 @@ services:
       REDIS_URL: redis://redis:6379/0
       CELERY_BROKER_URL: redis://redis:6379/1
       CELERY_RESULT_BACKEND: redis://redis:6379/2
-      APP_PUBLIC_URL: ${APP_PUBLIC_URL:-http://127.0.0.1:3002}
+      APP_PUBLIC_URL: ${APP_PUBLIC_URL:-http://127.0.0.1:3001}
       BACKEND_PUBLIC_URL: ${BACKEND_PUBLIC_URL:-http://127.0.0.1:8001}
       BING_API_KEY: ${BING_API_KEY:-}
       SERPAPI_KEY: ${SERPAPI_KEY:-}
@@ -107,7 +107,7 @@ services:
       REDIS_URL: redis://redis:6379/0
       CELERY_BROKER_URL: redis://redis:6379/1
       CELERY_RESULT_BACKEND: redis://redis:6379/2
-      APP_PUBLIC_URL: ${APP_PUBLIC_URL:-http://127.0.0.1:3002}
+      APP_PUBLIC_URL: ${APP_PUBLIC_URL:-http://127.0.0.1:3001}
       BACKEND_PUBLIC_URL: ${BACKEND_PUBLIC_URL:-http://127.0.0.1:8001}
       BING_API_KEY: ${BING_API_KEY:-}
       SERPAPI_KEY: ${SERPAPI_KEY:-}
@@ -138,7 +138,7 @@ services:
       NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL:-http://127.0.0.1:8001}
       NEXT_PUBLIC_APP_VERSION: ${NEXT_PUBLIC_APP_VERSION:-community}
     ports:
-      - "3002:3000"
+      - "3001:3000"
     depends_on:
       - backend
     volumes:

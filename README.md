@@ -36,7 +36,7 @@ This community edition is built for single operators working on behalf of victim
 
 - **Backend**: FastAPI + Celery + PostgreSQL + Redis
 - **Frontend**: Next.js + TypeScript + React
-- **Security**: Client-side hashing, JWT authentication
+- **Security**: Client-side hashing, zero-knowledge architecture
 - **Infrastructure**: Docker Compose for easy deployment
 
 ## Quick Start
