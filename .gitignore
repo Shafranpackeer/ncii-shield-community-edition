@@ -54,3 +54,7 @@ celerybeat-schedule
 celerybeat-schedule.*
 tmp/
 temp/
+
+# Claude temp files
+tmpclaude-*
+.claude/
