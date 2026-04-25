@@ -1,0 +1,150 @@
+services:
+  postgres:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_USER: ncii_user
+      POSTGRES_PASSWORD: ncii_password
+      POSTGRES_DB: ncii_shield
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5434:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ncii_user -d ncii_shield"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    command: >
+      sh -c "
+        mkdir -p /data &&
+        redis-server --appendonly yes --appendfsync everysec --dir /data --aof-rewrite-incremental-fsync yes --aof-load-truncated yes
+      "
+    volumes:
+      - ./redis:/data
+    ports:
+      - "6380:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    environment:
+      DATABASE_URL: postgresql://ncii_user:ncii_password@postgres:5432/ncii_shield
+      REDIS_URL: redis://redis:6379/0
+      CELERY_BROKER_URL: redis://redis:6379/1
+      CELERY_RESULT_BACKEND: redis://redis:6379/2
+      APP_PUBLIC_URL: ${APP_PUBLIC_URL:-http://127.0.0.1:3002}
+      BACKEND_PUBLIC_URL: ${BACKEND_PUBLIC_URL:-http://127.0.0.1:8001}
+      BING_API_KEY: ${BING_API_KEY:-}
+      SERPAPI_KEY: ${SERPAPI_KEY:-}
+      SERPER_API_KEY: ${SERPER_API_KEY:-}
+      RESEND_API_KEY: ${RESEND_API_KEY:-}
+      RESEND_FROM_EMAIL: ${RESEND_FROM_EMAIL:-NCII Shield <noreply@example.com>}
+      NOTICE_SENDER_NAME: ${NOTICE_SENDER_NAME:-NCII Shield Takedown Team}
+      NOTICE_SENDER_TITLE: ${NOTICE_SENDER_TITLE:-Authorized Abuse Reporting Contact}
+      NOTICE_ORGANIZATION: ${NOTICE_ORGANIZATION:-NCII Shield}
+      NOTICE_CONTACT_EMAIL: ${NOTICE_CONTACT_EMAIL:-}
+      NOTICE_ORGANIZATION_URL: ${NOTICE_ORGANIZATION_URL:-}
+      NOTICE_WEBSITE: ${NOTICE_WEBSITE:-}
+      NOTICE_CLIENT_NAME: ${NOTICE_CLIENT_NAME:-the client}
+    ports:
+      - "8002:8000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    volumes:
+      - ./backend:/app
+    command: ./startup.sh
+
+  celery-worker:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    environment:
+      DATABASE_URL: postgresql://ncii_user:ncii_password@postgres:5432/ncii_shield
+      REDIS_URL: redis://redis:6379/0
+      CELERY_BROKER_URL: redis://redis:6379/1
+      CELERY_RESULT_BACKEND: redis://redis:6379/2
+      APP_PUBLIC_URL: ${APP_PUBLIC_URL:-http://127.0.0.1:3002}
+      BACKEND_PUBLIC_URL: ${BACKEND_PUBLIC_URL:-http://127.0.0.1:8001}
+      BING_API_KEY: ${BING_API_KEY:-}
+      SERPAPI_KEY: ${SERPAPI_KEY:-}
+      SERPER_API_KEY: ${SERPER_API_KEY:-}
+      RESEND_API_KEY: ${RESEND_API_KEY:-}
+      RESEND_FROM_EMAIL: ${RESEND_FROM_EMAIL:-NCII Shield <noreply@example.com>}
+      NOTICE_SENDER_NAME: ${NOTICE_SENDER_NAME:-NCII Shield Takedown Team}
+      NOTICE_SENDER_TITLE: ${NOTICE_SENDER_TITLE:-Authorized Abuse Reporting Contact}
+      NOTICE_ORGANIZATION: ${NOTICE_ORGANIZATION:-NCII Shield}
+      NOTICE_CONTACT_EMAIL: ${NOTICE_CONTACT_EMAIL:-}
+      NOTICE_ORGANIZATION_URL: ${NOTICE_ORGANIZATION_URL:-}
+      NOTICE_WEBSITE: ${NOTICE_WEBSITE:-}
+      NOTICE_CLIENT_NAME: ${NOTICE_CLIENT_NAME:-the client}
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    volumes:
+      - ./backend:/app
+    command: celery -A app.celery_app worker --loglevel=info
+
+  celery-beat:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    environment:
+      DATABASE_URL: postgresql://ncii_user:ncii_password@postgres:5432/ncii_shield
+      REDIS_URL: redis://redis:6379/0
+      CELERY_BROKER_URL: redis://redis:6379/1
+      CELERY_RESULT_BACKEND: redis://redis:6379/2
+      APP_PUBLIC_URL: ${APP_PUBLIC_URL:-http://127.0.0.1:3002}
+      BACKEND_PUBLIC_URL: ${BACKEND_PUBLIC_URL:-http://127.0.0.1:8001}
+      BING_API_KEY: ${BING_API_KEY:-}
+      SERPAPI_KEY: ${SERPAPI_KEY:-}
+      SERPER_API_KEY: ${SERPER_API_KEY:-}
+      RESEND_API_KEY: ${RESEND_API_KEY:-}
+      RESEND_FROM_EMAIL: ${RESEND_FROM_EMAIL:-NCII Shield <noreply@example.com>}
+      NOTICE_SENDER_NAME: ${NOTICE_SENDER_NAME:-NCII Shield Takedown Team}
+      NOTICE_SENDER_TITLE: ${NOTICE_SENDER_TITLE:-Authorized Abuse Reporting Contact}
+      NOTICE_ORGANIZATION: ${NOTICE_ORGANIZATION:-NCII Shield}
+      NOTICE_CONTACT_EMAIL: ${NOTICE_CONTACT_EMAIL:-}
+      NOTICE_ORGANIZATION_URL: ${NOTICE_ORGANIZATION_URL:-}
+      NOTICE_WEBSITE: ${NOTICE_WEBSITE:-}
+      NOTICE_CLIENT_NAME: ${NOTICE_CLIENT_NAME:-the client}
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    volumes:
+      - ./backend:/app
+    command: celery -A app.celery_app beat --loglevel=info
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    environment:
+      NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL:-http://127.0.0.1:8001}
+      NEXT_PUBLIC_APP_VERSION: ${NEXT_PUBLIC_APP_VERSION:-community-white-label}
+    ports:
+      - "3002:3000"
+    depends_on:
+      - backend
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+      - /app/.next
+
+volumes:
+  postgres_data:

@@ -1,0 +1,213 @@
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.loading {
+  text-align: center;
+  padding: 3rem;
+  font-size: 1.2rem;
+  color: #666;
+}
+
+.error {
+  background-color: #fee;
+  color: #c00;
+  padding: 1rem;
+  border-radius: 4px;
+  margin: 2rem 0;
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin: 2rem 0;
+}
+
+.statCard {
+  background: #f8f9fa;
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+  padding: 1.5rem;
+  text-align: center;
+}
+
+.statCard h3 {
+  margin: 0 0 0.5rem;
+  font-size: 0.9rem;
+  color: #6c757d;
+  text-transform: uppercase;
+}
+
+.statCard p {
+  margin: 0;
+  font-size: 2rem;
+  font-weight: bold;
+  color: #343a40;
+}
+
+.domainGroup {
+  margin: 3rem 0;
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.domainHeader {
+  background: #f8f9fa;
+  padding: 1rem 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #dee2e6;
+}
+
+.domainHeader h2 {
+  margin: 0;
+  font-size: 1.25rem;
+}
+
+.bulkRejectBtn {
+  background: #dc3545;
+  color: #f1f5f9;
+  border: none;
+  border-radius: 4px;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  font-size: 0.875rem;
+  transition: background-color 0.15s ease-in-out;
+}
+
+.bulkRejectBtn:hover {
+  background: #c82333;
+}
+
+.targetGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 1.5rem;
+  padding: 1.5rem;
+}
+
+.targetCard {
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #172233;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.targetHeader {
+  padding: 1rem;
+  background: #f8f9fa;
+  border-bottom: 1px solid #dee2e6;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.targetHeader a {
+  color: #007bff;
+  text-decoration: none;
+  font-size: 0.875rem;
+  word-break: break-all;
+}
+
+.targetHeader a:hover {
+  text-decoration: underline;
+}
+
+.targetContent {
+  padding: 1rem;
+  display: flex;
+  gap: 1rem;
+}
+
+.thumbnail {
+  width: 200px;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 4px;
+  border: 1px solid #dee2e6;
+}
+
+.matchInfo {
+  flex: 1;
+}
+
+.matchInfo h4 {
+  margin: 0 0 0.5rem;
+  font-size: 1rem;
+}
+
+.matchType {
+  display: inline-block;
+  color: #f1f5f9;
+  padding: 0.25rem 0.75rem;
+  border-radius: 4px;
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+}
+
+.confidence {
+  font-size: 0.875rem;
+  color: #6c757d;
+  margin-bottom: 1rem;
+}
+
+.hashDetails {
+  font-size: 0.75rem;
+  color: #6c757d;
+  line-height: 1.5;
+}
+
+.targetActions {
+  padding: 1rem;
+  background: #f8f9fa;
+  border-top: 1px solid #dee2e6;
+  display: flex;
+  gap: 0.5rem;
+}
+
+.confirmBtn,
+.rejectBtn,
+.rescrapeBtn {
+  border: none;
+  border-radius: 4px;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  font-size: 0.875rem;
+  transition: background-color 0.15s ease-in-out;
+}
+
+.confirmBtn {
+  background: #28a745;
+  color: #f1f5f9;
+  flex: 1;
+}
+
+.confirmBtn:hover {
+  background: #218838;
+}
+
+.rejectBtn {
+  background: #dc3545;
+  color: #f1f5f9;
+  flex: 1;
+}
+
+.rejectBtn:hover {
+  background: #c82333;
+}
+
+.rescrapeBtn {
+  background: #17a2b8;
+  color: #f1f5f9;
+}
+
+.rescrapeBtn:hover {
+  background: #138496;
+}

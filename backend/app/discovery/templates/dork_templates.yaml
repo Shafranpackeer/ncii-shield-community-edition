@@ -1,0 +1,273 @@
+# NCII Shield Discovery Templates
+# Each template has:
+# - id: unique identifier
+# - category: classification of the dork type
+# - query_pattern: template with {placeholders}
+# - placeholders: list of required placeholders
+# - engines: list of compatible search engines
+# - risk_level: low/medium/high (determines if admin approval needed)
+
+templates:
+  # Name-based searches
+  - id: exact_name_search
+    category: name_variants
+    query_pattern: '"{first_name} {last_name}"'
+    placeholders: [first_name, last_name]
+    engines: [bing, serper-google, yandex]
+    risk_level: low
+
+  - id: name_with_location
+    category: name_variants
+    query_pattern: '"{first_name} {last_name}" {city}'
+    placeholders: [first_name, last_name, city]
+    engines: [bing, serper-google, yandex]
+    risk_level: low
+
+  - id: name_leaked_content
+    category: name_variants
+    query_pattern: '"{first_name} {last_name}" (leaked OR exposed OR private)'
+    placeholders: [first_name, last_name]
+    engines: [bing, serper-google, yandex]
+    risk_level: medium
+
+  - id: name_explicit_adult_terms
+    category: explicit_terms
+    query_pattern: '"{first_name} {last_name}" (nude OR nudes OR naked OR porn OR sex OR xxx OR sextape)'
+    placeholders: [first_name, last_name]
+    engines: [bing, serper-google, yandex]
+    risk_level: high
+
+  - id: name_ncII_terms
+    category: explicit_terms
+    query_pattern: '"{first_name} {last_name}" ("revenge porn" OR "leaked nudes" OR "private video" OR "onlyfans leak")'
+    placeholders: [first_name, last_name]
+    engines: [bing, serper-google, yandex]
+    risk_level: high
+
+  # Handle/username searches
+  - id: exact_handle_search
+    category: handle_variants
+    query_pattern: '"{handle}"'
+    placeholders: [handle]
+    engines: [bing, serper-google, yandex]
+    risk_level: low
+
+  - id: handle_with_platform
+    category: handle_variants
+    query_pattern: 'site:{platform}.com "{handle}"'
+    placeholders: [handle, platform]
+    engines: [bing, serper-google]
+    risk_level: low
+
+  - id: handle_adult_platforms
+    category: handle_variants
+    query_pattern: '"{handle}" (onlyfans OR fansly OR manyvids OR chaturbate)'
+    placeholders: [handle]
+    engines: [bing, yandex]
+    risk_level: medium
+
+  - id: handle_explicit_adult_terms
+    category: explicit_terms
+    query_pattern: '"{handle}" (nude OR nudes OR naked OR porn OR sex OR xxx OR sextape OR leaked)'
+    placeholders: [handle]
+    engines: [bing, serper-google, yandex]
+    risk_level: high
+
+  - id: handle_ncII_terms
+    category: explicit_terms
+    query_pattern: '"{handle}" ("revenge porn" OR "leaked nudes" OR "private video" OR "onlyfans leak")'
+    placeholders: [handle]
+    engines: [bing, serper-google, yandex]
+    risk_level: high
+
+  # Filetype-specific leaks
+  - id: image_files_name
+    category: filetype_leaks
+    query_pattern: 'filetype:(jpg OR jpeg OR png OR gif) "{first_name} {last_name}"'
+    placeholders: [first_name, last_name]
+    engines: [bing, serper-google]
+    risk_level: medium
+
+  - id: video_files_name
+    category: filetype_leaks
+    query_pattern: 'filetype:(mp4 OR avi OR mov OR wmv) "{first_name}"'
+    placeholders: [first_name]
+    engines: [bing, serper-google]
+    risk_level: medium
+
+  - id: archive_files_handle
+    category: filetype_leaks
+    query_pattern: 'filetype:(zip OR rar OR 7z) "{handle}"'
+    placeholders: [handle]
+    engines: [bing, serper-google]
+    risk_level: high
+
+  # Leak site patterns
+  - id: anonfiles_search
+    category: leak_site_patterns
+    query_pattern: 'site:anonfiles.com "{handle}"'
+    placeholders: [handle]
+    engines: [bing, serper-google]
+    risk_level: high
+
+  - id: mega_nz_links
+    category: leak_site_patterns
+    query_pattern: '"mega.nz" "{first_name} {last_name}"'
+    placeholders: [first_name, last_name]
+    engines: [bing, serper-google, yandex]
+    risk_level: high
+
+  - id: mediafire_search
+    category: leak_site_patterns
+    query_pattern: 'site:mediafire.com "{handle}"'
+    placeholders: [handle]
+    engines: [bing, serper-google]
+    risk_level: high
+
+  - id: cyberdrop_search
+    category: leak_site_patterns
+    query_pattern: 'site:cyberdrop.me "{handle}"'
+    placeholders: [handle]
+    engines: [bing, serper-google]
+    risk_level: high
+
+  - id: bunkr_search
+    category: leak_site_patterns
+    query_pattern: 'site:bunkr.is "{handle}"'
+    placeholders: [handle]
+    engines: [bing, serper-google]
+    risk_level: high
+
+  # Messaging platform indexers
+  - id: telegram_channel_search
+    category: messaging_platform_indexers
+    query_pattern: 'site:t.me "{handle}"'
+    placeholders: [handle]
+    engines: [bing, serper-google]
+    risk_level: medium
+
+  - id: discord_cdn_leaks
+    category: messaging_platform_indexers
+    query_pattern: 'site:cdn.discordapp.com "{first_name}"'
+    placeholders: [first_name]
+    engines: [bing, serper-google]
+    risk_level: medium
+
+  - id: telegram_index_sites
+    category: messaging_platform_indexers
+    query_pattern: '(site:telemetr.io OR site:tgstat.ru) "{handle}"'
+    placeholders: [handle]
+    engines: [bing, serper-google]
+    risk_level: medium
+
+  # Cloud storage patterns
+  - id: google_drive_public
+    category: cloud_storage_leaks
+    query_pattern: 'site:drive.google.com "{first_name} {last_name}"'
+    placeholders: [first_name, last_name]
+    engines: [bing, serper-google]
+    risk_level: medium
+
+  - id: dropbox_public_links
+    category: cloud_storage_leaks
+    query_pattern: '"dropbox.com/s/" "{handle}"'
+    placeholders: [handle]
+    engines: [bing, serper-google, yandex]
+    risk_level: medium
+
+  - id: imgur_albums
+    category: cloud_storage_leaks
+    query_pattern: 'site:imgur.com/a/ "{first_name}"'
+    placeholders: [first_name]
+    engines: [bing, serper-google]
+    risk_level: medium
+
+  # Forum and board searches
+  - id: adult_forum_search
+    category: leak_site_patterns
+    query_pattern: '"{handle}" (site:xbunker.nu OR site:nudostar.com OR site:thothub.to)'
+    placeholders: [handle]
+    engines: [bing, yandex]
+    risk_level: high
+
+  - id: chan_board_search
+    category: leak_site_patterns
+    query_pattern: '(site:archived.moe OR site:desuarchive.org) "{first_name} {last_name}"'
+    placeholders: [first_name, last_name]
+    engines: [bing, serper-google]
+    risk_level: high
+
+  - id: reddit_search
+    category: leak_site_patterns
+    query_pattern: 'site:reddit.com "{handle}" (nsfw OR leaked)'
+    placeholders: [handle]
+    engines: [bing, serper-google]
+    risk_level: medium
+
+  - id: reddit_explicit_name_search
+    category: leak_site_patterns
+    query_pattern: 'site:reddit.com "{first_name} {last_name}" (nudes OR nude OR nsfw OR porn OR leaked OR xxx)'
+    placeholders: [first_name, last_name]
+    engines: [bing, serper-google]
+    risk_level: high
+
+  # Email-based searches
+  - id: email_exact_search
+    category: name_variants
+    query_pattern: '"{email}"'
+    placeholders: [email]
+    engines: [bing, serper-google, yandex]
+    risk_level: low
+
+  - id: email_breach_search
+    category: name_variants
+    query_pattern: '"{email}" (leaked OR breach OR exposed)'
+    placeholders: [email]
+    engines: [bing, serper-google, yandex]
+    risk_level: medium
+
+  - id: email_explicit_search
+    category: explicit_terms
+    query_pattern: '"{email}" (nudes OR nude OR naked OR porn OR sex OR xxx OR leaked)'
+    placeholders: [email]
+    engines: [bing, serper-google, yandex]
+    risk_level: high
+
+  # Combination patterns
+  - id: name_and_age
+    category: name_variants
+    query_pattern: '"{first_name} {last_name}" "{age} years old"'
+    placeholders: [first_name, last_name, age]
+    engines: [bing, serper-google, yandex]
+    risk_level: low
+
+  - id: handle_real_name_combo
+    category: handle_variants
+    query_pattern: '"{handle}" "{first_name} {last_name}"'
+    placeholders: [handle, first_name, last_name]
+    engines: [bing, serper-google, yandex]
+    risk_level: medium
+
+  # Image board searches
+  - id: booru_search
+    category: leak_site_patterns
+    query_pattern: '(site:gelbooru.com OR site:rule34.xxx) "{handle}"'
+    placeholders: [handle]
+    engines: [bing]
+    risk_level: high
+
+  # Paste sites
+  - id: pastebin_search
+    category: leak_site_patterns
+    query_pattern: 'site:pastebin.com "{handle}"'
+    placeholders: [handle]
+    engines: [bing, serper-google]
+    risk_level: medium
+
+  # Dating site leaks
+  - id: dating_site_search
+    category: name_variants
+    query_pattern: '"{first_name}" {age} (tinder OR bumble OR hinge) leaked'
+    placeholders: [first_name, age]
+    engines: [bing, serper-google, yandex]
+    risk_level: medium
