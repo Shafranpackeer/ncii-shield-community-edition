@@ -1,15 +1,15 @@
 export function AppFooter() {
-  const version = process.env.NEXT_PUBLIC_APP_VERSION || 'community';
+  const repoUrl = process.env.NEXT_PUBLIC_GITHUB_REPO_URL || 'https://github.com/Shafranpackeer/ncii-shield-community-edition';
 
   return (
     <footer className="app-footer">
       <div className="footer-copy">
-        <strong>Update available</strong>
-        <span>Version {version}. Pull the latest GitHub changes and rebuild with <code>docker compose up -d --build</code>.</span>
+        <strong>Created by Shafran Packeer</strong>
+        <span>NCII Shield Community Edition</span>
       </div>
       <div className="footer-links">
         <a href="/settings">Settings</a>
-        <a href="https://github.com/" target="_blank" rel="noreferrer">GitHub</a>
+        <a href={repoUrl} target="_blank" rel="noreferrer">GitHub repo</a>
       </div>
       <style jsx>{`
         .app-footer {

@@ -5,12 +5,6 @@ import { useToast } from '../components/Toast';
 
 type SettingsMap = Record<string, string>;
 
-const brandLines = [
-  'Created by Shafran Packeer',
-  'shafranpackeer.com',
-  'vesamuni.com',
-];
-
 export default function SettingsPage() {
   const router = useRouter();
   const toast = useToast();
@@ -89,7 +83,7 @@ export default function SettingsPage() {
           <div>
             <div className="eyebrow">Settings</div>
             <h1>Runtime configuration</h1>
-            <p>Manage provider keys, sender identity, and white-label values without editing code.</p>
+            <p>Manage provider keys and runtime configuration without editing code.</p>
           </div>
           <div className="settings-actions">
             <button className="secondary-button" onClick={() => router.push('/')}>Back to dashboard</button>
@@ -104,14 +98,6 @@ export default function SettingsPage() {
           <div>
             <strong>Runtime behavior</strong>
             <p>These values are stored in Postgres and override matching environment variables for the running stack.</p>
-          </div>
-          <div>
-            <strong>White label</strong>
-            <p>If no website is set, notices fall back to the email domain or stay blank. No hardcoded brand domain is used.</p>
-          </div>
-          <div>
-            <strong>Branding</strong>
-            <p>{brandLines.join(' · ')}</p>
           </div>
         </section>
 

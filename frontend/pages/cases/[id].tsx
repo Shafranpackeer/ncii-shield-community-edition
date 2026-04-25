@@ -138,6 +138,18 @@ export default function CaseDetail() {
   const pendingEmailGroups = useMemo(() => groupEmailActions(pendingEmailActions), [pendingEmailActions]);
   const approvedEmailGroups = useMemo(() => groupEmailActions(approvedEmailActions), [approvedEmailActions]);
 
+  useEffect(() => {
+    if (!id) return;
+    const needsLiveRefresh = approvedEmailActions.length > 0 || pendingEmailActions.length > 0 || timeline.length > 0;
+    if (!needsLiveRefresh) return;
+
+    const interval = window.setInterval(() => {
+      loadPage();
+    }, 30000);
+
+    return () => window.clearInterval(interval);
+  }, [id, approvedEmailActions.length, pendingEmailActions.length, timeline.length]);
+
   const getActionRecipient = (action: Action) => {
     const recipient = action.payload?.recipient;
     if (Array.isArray(recipient)) {
