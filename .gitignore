@@ -58,3 +58,6 @@ temp/
 # Claude temp files
 tmpclaude-*
 .claude/
+
+# Old project copies
+github-ready/
